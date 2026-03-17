@@ -78,6 +78,21 @@ Output:
 ./scripts/test.sh
 ```
 
+## Release
+
+Releases are tag-driven via GitHub Actions (`.github/workflows/release.yml`).
+
+```bash
+git tag -a v0.6.1 -m "Chord Flow v0.6.1"
+git push origin v0.6.1
+```
+
+Before tagging, keep these in sync:
+
+- `src/module.json` `version`
+- `release.json` `version`
+- `release.json` `download_url`
+
 ## Install to Move
 
 ```bash

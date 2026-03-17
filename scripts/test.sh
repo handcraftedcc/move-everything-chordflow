@@ -9,5 +9,6 @@ ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 "$ROOT_DIR/tests/test_chordflow_multi_json_load.sh"
 "$ROOT_DIR/tests/test_chordflow_octave_transpose.sh"
 "$ROOT_DIR/tests/chordflow_ui_behavior_test.sh"
+"$ROOT_DIR/tests/test_release_metadata.sh"
 
 echo "All Chord Flow tests passed."
