@@ -1,6 +1,6 @@
 [
   {
-    "name": "01 Pop Foundation (C Major)",
+    "name": "01 Pop Foundat",
     "bank": "Factory",
     "global_octave": 2,
     "global_transpose": 0,
@@ -184,7 +184,7 @@
     ]
   },
   {
-    "name": "02 Emotional Pop",
+    "name": "02 Emotion Pop",
     "bank": "Factory",
     "global_octave": 2,
     "global_transpose": 0,
@@ -368,7 +368,7 @@
     ]
   },
   {
-    "name": "03 Deep House (Dm)",
+    "name": "03 Deep House",
     "bank": "Factory",
     "global_octave": 2,
     "global_transpose": 0,
@@ -552,7 +552,7 @@
     ]
   },
   {
-    "name": "04 Chill Ambient (Am)",
+    "name": "04 Chill Ambient",
     "bank": "Factory",
     "global_octave": 2,
     "global_transpose": 0,
@@ -736,7 +736,7 @@
     ]
   },
   {
-    "name": "05 Jazz ii-V-I (Bb)",
+    "name": "05 Jazz ii-V-I",
     "bank": "Factory",
     "global_octave": 2,
     "global_transpose": 0,
@@ -920,7 +920,7 @@
     ]
   },
   {
-    "name": "06 Trap Minor (Fm)",
+    "name": "06 Trap",
     "bank": "Factory",
     "global_octave": 2,
     "global_transpose": 0,
@@ -1104,7 +1104,7 @@
     ]
   },
   {
-    "name": "07 Tension Bank (G Dominant)",
+    "name": "07 Tension",
     "bank": "Factory",
     "global_octave": 2,
     "global_transpose": 0,
@@ -1288,7 +1288,7 @@
     ]
   },
   {
-    "name": "08 Minimal / Tech",
+    "name": "08 Minimal Tech",
     "bank": "Factory",
     "global_octave": 2,
     "global_transpose": 0,

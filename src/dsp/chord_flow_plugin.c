@@ -127,7 +127,7 @@ static const char *TYPE_NAMES[] = {
     "9sus","sus9","11th","m11","sus11","13th","maj13","min13",
     /* Altered / specialized */
     "dom7add9","dom7b9","dom7#9","dom7#5","dom7alt","maj7#5","maj7b5","maj7#11","maj9#11",
-    "madd9","madd11","mb5","mb6","m7b13","m7add13","m11b5","mM13","sus13","add13",
+    "madd9","madd11","mb5","mb6","m7b13","m7add13","m11b5","mM7","mM13","sus13","add13",
     /* Extra specialized */
     "11sus","11sus2","13b9","5add9","5b9","6sus2","6sus2b5","6sus4","7#9#5","9#11",
     "dimM7","dim#5","dim11","addb9","aug#9","mb7","mb9","mb13","m6addb13",
@@ -202,6 +202,7 @@ static const chord_def_t CHORD_DEFS[] = {
     {{0,3,7,10,20},5},         /* m7b13 */
     {{0,3,7,10,21},5},         /* m7add13 */
     {{0,3,6,10,14,17},6},      /* m11b5 */
+    {{0,3,7,11},4},            /* mM7 */
     {{0,3,7,11,14,21},6},      /* mM13 */
     {{0,5,7,10,21},5},         /* sus13 */
     {{0,4,7,21},4},            /* add13 */
@@ -286,6 +287,7 @@ typedef struct {
     int        current_pad;         /* 1-based */
     int8_t     held_out[128][MAX_CHORD_NOTES];
     int        held_out_count[128];
+    uint8_t    suppress_next_off[128];
     pending_note_t pending[MAX_PENDING];
     int        pending_count;
     int        sample_rate;
@@ -961,11 +963,15 @@ static int process_midi(void *instance,
     }
 
     if (is_on) {
+        int had_active_for_note = (inst->held_out_count[note] > 0);
+
         /* Release previous chord on this input note */
-        if (inst->held_out_count[note] > 0) {
+        if (had_active_for_note) {
             memset(inst->held_out[note], -1, sizeof(inst->held_out[note]));
             inst->held_out_count[note] = 0;
         }
+        /* Some sequencers send note_on (new loop) before stale note_off (old loop). */
+        inst->suppress_next_off[note] = had_active_for_note ? 1 : 0;
         
         int pad_idx = inst->current_pad - 1;
         pad_slot_t *s = &inst->active_pad_slots[pad_idx];
@@ -1001,6 +1007,11 @@ static int process_midi(void *instance,
     }
 
     if (is_off) {
+        if (inst->suppress_next_off[note]) {
+            inst->suppress_next_off[note] = 0;
+            return 0;
+        }
+
         int count = inst->held_out_count[note];
         if (count == 0) { 
             memcpy(out_msgs[0], in_msg, 3); 
@@ -1020,6 +1031,7 @@ static int process_midi(void *instance,
         
         memset(inst->held_out[note], -1, sizeof(inst->held_out[note]));
         inst->held_out_count[note] = 0;
+        inst->suppress_next_off[note] = 0;
         
         LOG("midi off: note=%d chords_off=%d", note, out);
         return out;
